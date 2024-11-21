@@ -1,0 +1,21 @@
+services:
+  jfapi:
+    build:
+      context: ./src-jfapi
+      dockerfile: Dockerfile
+      args:
+        url_pypi: ${url_pypi_index}
+        url_docker: ${url_docker_index}
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build:
+      context: ./src-nginx
+      dockerfile: Dockerfile
+      args:
+        url_docker: ${url_docker_index}
+    ports:
+      - "80:80"
+    depends_on:
+      - jfapi
